@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+index page
+{% for i in list %}
+<li>id: {{i.date}} | name: {{i.text}}</li>
+{% endfor %}
+{% endblock %}

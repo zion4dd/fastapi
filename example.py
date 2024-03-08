@@ -66,6 +66,6 @@ def additem(item: Item):
     return db[-1]
 
 
-@app.exception_handler(Exception)
+@app.exception_handler(Exception)  # send exc to frontend
 def exc(request, exception):
     return JSONResponse(content=jsonable_encoder({"error": exception.errors()}))

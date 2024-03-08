@@ -3,10 +3,12 @@
 from typing import Optional
 
 from auth.models import User
-from auth.utils import get_user_db
 from config import SECRET_AUTH
+from database import get_async_session
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
+from fastapi_users.db import SQLAlchemyUserDatabase
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
@@ -25,6 +27,10 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         self, user: User, token: str, request: Optional[Request] = None
     ):
         print(f"Verification requested for user {user.id}. Verification token: {token}")
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+    yield SQLAlchemyUserDatabase(session, User)
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):

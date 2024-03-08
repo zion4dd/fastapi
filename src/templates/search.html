@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const searchfor = () => {
+        const searchInputValue = document.getElementById("id_search").value;
+        window.location.href = `/views/search/${searchInputValue}`;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<img src="{{ url_for('static', path='schema.jpg') }}" alt="picture" width="150" class="rounded m-5">
+<div>
+    <input id="id_search" type="text" class="border-2 border-black rounded m-5">
+    <button onclick="searchfor()">Search id</button>
+</div>
+<div class="m-5">
+
+    {% if post %}
+    {{post.id}}<br>
+    {{post.date}}<br>
+    {{post.text}}<br>
+    {% else %}
+    Post not found
+    {% endif %}
+</div>
+
+{% endblock %}

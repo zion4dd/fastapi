@@ -1,0 +1,62 @@
+Version: "3.9"
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    env_file:
+      - /root/.env # POSTGRES_PASSWORD
+    # command: -p 5433
+    # expose:
+    #   - 5433
+    # volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+        #  size: 134217728 # 128*2^20 bytes = 128Mb
+
+  redis:
+    image: redis
+    container_name: redis
+    # command: --port 6377
+    # expose:
+    #   - 6377
+
+  app:
+    build:
+      context: .
+    container_name: fastapi-app
+    env_file:
+      - /root/.env
+    ports:
+      - 9999:8000
+    depends_on:
+      - db
+      - redis
+    command: ["/fastapi-app/docker/app.sh"]
+
+  celery:
+    build:
+      context: .
+    container_name: celery
+    # env_file:
+    #   - /root/.env
+    depends_on:
+      - redis
+    command: ["/fastapi-app/docker/celery.sh"]
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.001'
+    #       memory: 50M
+    #     reservations:
+    #       cpus: '0.0001'
+    #       memory: 20M
+
+
+# docker compose build
+
+# docker compose up
+

@@ -2,13 +2,10 @@
 
 from datetime import datetime
 
+from database import Base
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, ForeignKey, String
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-
-class Base(DeclarativeBase):
-    pass
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class Status(Base):
@@ -16,6 +13,9 @@ class Status(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(unique=True)
     params: Mapped[str] = mapped_column(nullable=True)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -31,3 +31,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
