@@ -1,15 +1,21 @@
 ## Deploy
 - connect VPS
-- run and save .env:
-    - mkdir /root/fastapi_app
-    - mkdir /root/fastapi_app/nginx
-    - git clone https://github.com/zion4dd/fastapi /root/fastapi_app/app
-    - cp /root/fastapi_app/app/nginx.conf /root/fastapi_app/nginx/
-    - nano /root/fastapi_app/.env
-- run:
-    - cd /root/fastapi_app/app
-    - docker compose build
-    - docker compose up -d
+- run script and edit .env:
+```console
+#!/bin/bash
+mkdir /root/fastapi_app
+mkdir /root/fastapi_app/nginx
+git clone https://github.com/zion4dd/fastapi /root/fastapi_app/app
+cp /root/fastapi_app/app/nginx.conf /root/fastapi_app/nginx/
+nano /root/fastapi_app/app/.env
+cd /root/fastapi_app/app
+read -p "run 'docker compose build' ? (y/n)" answer
+if [[ "$answer" == "y" ]]; then
+docker compose build
+fi
+```
+- run command:  
+docker compose up -d
 
 ## Docs
 https://github.com/zhanymkanov/fastapi-best-practices  
