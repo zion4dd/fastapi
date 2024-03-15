@@ -11,11 +11,12 @@ from fastapi_users.authentication import (
 )
 
 # choose Transport and Stratagy
-cookie_transport = CookieTransport(cookie_max_age=3600)
+# cookie_secure=False for http protocol browser save cookie (not works for MSEdge)
+cookie_transport = CookieTransport(cookie_max_age=3600*24, cookie_secure=False)
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=SECRET_AUTH, lifetime_seconds=3600)
+    return JWTStrategy(secret=SECRET_AUTH, lifetime_seconds=3600*24)
 
 
 # create a backend

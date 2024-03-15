@@ -1,4 +1,5 @@
 services:
+
   db:
     image: postgres
     container_name: postgres
@@ -6,9 +7,9 @@ services:
     # set shared memory limit when using docker-compose
     shm_size: 128mb
     env_file:
-      - /root/.env # POSTGRES_PASSWORD
+      - /root/fastapi_app/.env # POSTGRES_PASSWORD
     volumes:
-      - ../fastapi_backup:/var/lib/postgresql/data
+      - ../postresql_backup:/var/lib/postgresql/data
     # command: -p 5433
     # expose:
     #   - 5433
@@ -27,9 +28,10 @@ services:
       context: .
     container_name: fastapi-app
     env_file:
-      - /root/.env
-    ports:
-      - 9999:8000
+      - /root/fastapi_app/.env
+    # turn off 'ports' with nginx service
+    # ports:
+    #   - 9999:8000
     depends_on:
       - db
       - redis
@@ -40,7 +42,7 @@ services:
       context: .
     container_name: celery
     env_file:
-      - /root/.env
+      - /root/fastapi_app/.env
     depends_on:
       - redis
     command: ["/fastapi-app/scripts/celery.sh"]
@@ -52,6 +54,16 @@ services:
     #     reservations:
     #       cpus: '0.0001'
     #       memory: 20M
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - /root/fastapi_app/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
 
 
 
