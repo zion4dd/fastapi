@@ -11,20 +11,20 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # docker-compose:
-RUN chmod a+x docker/*.sh
+RUN chmod a+x scripts/*.sh
 
 # WORKDIR src
 
-CMD gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+# CMD gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
 
 
 
-# docker build . -t fastapi_app:latest
+# docker build -t fastapi_app .
 
-# docker run -p 1234:8000 fastapi_app
+# docker run --name fastapi_cont --rm -p 1234:8000 fastapi_app
 
 # docker ps
 
-# docker logs <id>
+# docker logs fastapi_cont -f
 
-# docker exec -it <cont-name> bash      # to run commands in container
+# docker exec -it fastapi_cont bash      # to run commands in container
