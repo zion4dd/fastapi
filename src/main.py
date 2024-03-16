@@ -81,3 +81,31 @@ app.add_middleware(
         "Authorization",
     ],
 )
+
+
+"""
+create a custom func and use that func inside your Jinja2 templates instead of the usual url_for() func
+
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from typing import Any
+import urllib
+
+app = FastAPI()
+
+def my_url_for(request: Request, name: str, **path_params: Any) -> str:
+    url = request.url_for(name, **path_params)
+    parsed = list(urllib.parse.urlparse(url))
+    #parsed[0] = 'https'  # Change the scheme to 'https' (Optional)
+    parsed[1] = 'my_domain.com'  # Change the domain name
+    return urllib.parse.urlunparse(parsed)
+    
+
+app.mount('/static', StaticFiles(directory='static'), name='static')
+templates = Jinja2Templates(directory='templates')
+templates.env.globals['my_url_for'] = my_url_for
+
+# html template:
+<link href="{{ my_url_for(request, 'static', path='/styles.css') }}" rel="stylesheet">
+"""

@@ -67,6 +67,8 @@ services:
       - static-vol:/static
     depends_on:
       - app
+    environment:
+      - APP_HOST="http://app:8000"
 
 volumes:
   static-vol:
