@@ -8,9 +8,9 @@ target=/root/fastapi
 
 mkdir ${target}
 git clone https://github.com/zion4dd/fastapi ${target}
+
 nano ${target}/.env
 cd ${target}/
-
 echo "Fastapi app dir: ${target}"
 
 read -p "run 'docker compose build' ? (y/n)" answer

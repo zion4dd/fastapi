@@ -1,14 +1,13 @@
 #!/bin/bash
 
-target=/root/fastapi_app
+target=/root/fastapi
 
-mkdir ${target} ${target}/nginx
-git clone https://github.com/zion4dd/fastapi ${target}/app
-cp ${target}/app/nginx.conf ${target}/nginx/
-nano ${target}/app/.env
-cd ${target}/app
+mkdir ${target}
+git clone https://github.com/zion4dd/fastapi ${target}
 
-echo "Fastapi app dir: ${target}/app"
+nano ${target}/.env
+cd ${target}/
+echo "Fastapi app dir: ${target}"
 
 read -p "run 'docker compose build' ? (y/n)" answer
 if [ "$answer" == "y" ]; then
