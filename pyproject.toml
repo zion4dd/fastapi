@@ -1,0 +1,18 @@
+[project]
+name = "fastapi_project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "celery>=5.4.0",
+    "fastapi-users>=14.0.1",
+    "fastapi>=0.115.8",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.3",
+    "sqlalchemy>=2.0.38",
+    "pydantic>=2.10.6",
+    "httpx>=0.28.1",
+    "fastapi-cache>=0.1.0",
+    "redis>=5.2.1",
+]
